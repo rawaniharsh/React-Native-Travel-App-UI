@@ -17,7 +17,7 @@ const PLACES = [
         id: '3',
         name: 'Orion Mall',
         location: 'Karnataka',
-        image: require('orionMall.jpg'),
+        image: require('../assets/orionMall.jpg'),
         details: 'Orion Mall is the one of the Biggest Mall of Bangalore.'
     },
     {
@@ -45,7 +45,7 @@ const PLACES = [
         id: '7',
         name: 'Lake Pichhola',
         location: 'Rajasthan',
-        image: require('../assets/lakePichhola.jpg'),
+        image: require('../assets/lakePichola.jpg'),
         details: "It's a lake located in Udaipur, Rajasthan"
     },
     {

@@ -7,11 +7,43 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
-  TextInput,
+  ImageBackground,
+  FlatList,
+  Dimensions,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { SearchBar } from "react-native-elements";
+import places from "../../constants/places"; 
+const { width } = Dimensions.get("screen");
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
+  const CategoryIcons = [
+    <Icon name="flight" size={25} color={COLORS.primary} />,
+    <Icon name="beach-access" size={25} color={COLORS.primary} />,
+    <Icon name="near-me" size={25} color={COLORS.primary} />,
+    <Icon name="place" size={25} color={COLORS.primary} />,
+  ];
+
+  const ListCategories = () => {
+    return (
+      <View style={style.categoryContainer}>
+        {CategoryIcons.map((icon, index) => (
+          <View key={index} style={style.IconContainer}>
+            {icon}
+          </View>
+        ))}
+      </View>
+    );
+  };
+
+  const Card = ({place}) => {
+    return (
+      <ImageBackground
+        style={style.cardImage}
+        source={place.image}
+      ></ImageBackground>
+    );
+  };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <StatusBar translucent={false} backgroundColor={COLORS.primary} />
@@ -37,13 +69,32 @@ const HomeScreen = () => {
           >
             Beautiful places
           </Text>
-          <View style={style.inputcontainer}>
-            <Icon name="search" size={28} color={COLORS.primary}/>
-            <TextInput
-            placeholder="Search Places"
-            style={{color: COLORS.grey, height:30}}
-            />
-          </View>
+          <SearchBar
+            ref={(search) => (this.search = search)}
+            inputStyle={{ backgroundColor: "white", marginTop: -10 }}
+            containerStyle={{
+              backgroundColor: "white",
+              borderWidth: 1,
+              borderRadius: 5,
+              height: 50,
+              borderColor: COLORS.primary,
+              marginTop: 30,
+            }}
+            leftIconContainerStyle={{ backgroundColor: "white" }}
+            inputContainerStyle={{ backgroundColor: "white", height: 40 }}
+            placeholderTextColor={COLORS.primary}
+            placeholder="Search..."
+          />
+        </View>
+        <ListCategories />
+        <Text style={style.sectionTitle}>Places</Text>
+        <View>
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={places}
+            renderItem={({ item }) => <Card place={item} />}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -66,8 +117,37 @@ const style = StyleSheet.create({
     position: "absolute",
     top: 90,
     flexDirection: "row",
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     marginLeft: 10,
+    elevation: 5,
+  },
+  categoryContainer: {
+    marginHorizontal: 20,
+    marginTop: 60,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  IconContainer: {
+    height: 50,
+    width: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: COLORS.secondary,
+    borderRadius: 10,
+  },
+  sectionTitle: {
+    paddingHorizontal: 20,
+    marginTop: 20,
+    fontWeight: "bold",
+    fontSize: 22,
+  },
+  cardImage: {
+    height: 220,
+    width: width / 2,
+    marginRight: 20,
+    overflow: "hidden",
+    borderRadius: 10,
+    padding: 10
   },
 });
 
